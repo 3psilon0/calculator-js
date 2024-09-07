@@ -71,7 +71,7 @@ body {
 
 .default-btn {
     width: 70px;
-    height: 60px;
+    height: 55px;
     font-size: 32px;
     font-family: 'Orbitron';
     border: 2px solid black;
@@ -87,7 +87,7 @@ body {
 .default-btn:active {
     cursor: pointer;
     box-shadow: none;
-    opacity: 0.75;
+    opacity: 0.85;
 }
 
 #zero-btn, #point-btn {
@@ -95,5 +95,5 @@ body {
 }
 
 #point-btn {
-    padding-bottom: 55px;
+    padding-bottom: 45px;
 }
