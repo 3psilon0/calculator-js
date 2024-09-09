@@ -1,8 +1,4 @@
-/* * {
-    border: 1px solid red;
-} */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
 
 html, body {
     width: auto;
@@ -12,19 +8,19 @@ html, body {
 #title {
     color: wheat;
     background-color: #222222;
-    padding: 0 150px 0 150px;
-    /* width: 100%; */
+    padding: 10px 0 10px 0;
+    width: 300px;
     border-radius: 10px;
-    font-family: 'Style Script', Arial;
-    font-size: 45px;
-    border: 2px solid black;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 35px;
+    text-align: center;
 }
 
 body {
     background-color: #323232;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     background-color: #121212;
 }
@@ -44,13 +40,15 @@ body {
     height: 100px;
     background-color: #404040;
     color: #eeeeee;
-    font-size: 50px;
+    font-size: 40px;
     font-family: 'Orbitron', Arial;
-    padding: 20px 10px 0px 10px;
+    padding: 30px 10px 0px 0px;
     margin: 20px;
     border: 3px solid black;
     border-radius: 10px;
     overflow-x: scroll;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 1px;
 }
 
 #calc-buttons {
@@ -59,7 +57,7 @@ body {
     flex-direction: column;
     justify-content: space-around;
     align-items: stretch;
-    border-top: 5px solid black;
+    border-radius: 0 0 5px 5px;
     background-color: #313131;
     padding: 10px;
 }
@@ -72,7 +70,7 @@ body {
 .default-btn {
     width: 70px;
     height: 55px;
-    font-size: 32px;
+    font-size: 22px;
     font-family: 'Orbitron';
     border: 2px solid black;
     border-radius: 20px;
@@ -87,7 +85,7 @@ body {
 .default-btn:active {
     cursor: pointer;
     box-shadow: none;
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
 #zero-btn, #point-btn {
@@ -95,5 +93,19 @@ body {
 }
 
 #point-btn {
-    padding-bottom: 45px;
+    padding-bottom: 10px;
+}
+
+#clear-btn {
+    background-color: red;;
+}
+
+#plus-btn, #minus-btn,
+#mult-btn, #divide-btn,
+#equals-btn {
+    background-color: goldenrod;
+}
+
+#delete-btn {
+    background-color: darkorange;
 }
