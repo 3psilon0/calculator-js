@@ -20,7 +20,7 @@ const operators = {
     "mult-btn": "×",
     "minus-btn": "-",
     "plus-btn": "+",
-    "mod-btn": "mod"
+    "mod-btn": "mod",
 };
 
 const Calculator = function () {
@@ -130,6 +130,65 @@ const Calculator = function () {
         }
     };
 
+    const erase = () => {
+        if (y === null) {
+            if (hasOpr()) {
+                if (prevExpr === null) {
+                    opr = null;
+                    return `${x}`;
+                }
+                else {
+                    if (RegExp(/^-{1}\(.*\)/).test(prevExpr)){
+                        invert();
+                        return `${prevExpr} ${opr}`;
+                    }
+
+                    opr = null;
+                    let tokens = prevExpr.split(" ");
+                    if(tokens.length === 3){
+                        y = tokens.pop();
+                        opr = tokens.pop();
+                        x = tokens.pop();
+                        prevExpr = null;
+
+                        return `${x} ${opr} ${y}`;
+                    }
+                    let tempY = tokens.pop();
+                    tempOpr = tokens.pop();
+                    let expr = [...tokens].reverse();
+
+                    while (expr.length != 1){
+                        x = expr.pop();
+                        opr = expr.pop();
+                        y = expr.pop();
+                        expr.push(operate());
+                    }
+
+                    x = expr.pop();
+                    y = tempY;
+                    opr = tempOpr;
+                    prevExpr = tokens.join(" ");
+
+                    return `${prevExpr} ${opr} ${y}`;
+                }
+            }
+            else {
+                x = x.slice(0, x.length - 1);
+                if (x === ""){
+                    return "0";
+                }
+                return `${x}`;
+            }
+        } else {
+            y = y.slice(0, y.length - 1);
+            if (y === "") {
+                y = null;
+                return (prevExpr === null ? `${x} ${opr}` : `${prevExpr} ${opr}`);
+            }
+            return (prevExpr === null ? `${x} ${opr} ${y}` : `${prevExpr} ${opr} ${y}`);
+        }
+    };
+
     const getFullExpr = (char) => {
         let expr;
         if (calc.hasOpr()) {
@@ -188,6 +247,7 @@ const Calculator = function () {
         getFullExpr: getFullExpr,
         getHalfExpr: getHalfExpr,
         insertPoint: insertPoint,
+        erase: erase,
         invert: invert,
         hasOpr: hasOpr,
     };
@@ -246,9 +306,14 @@ calcButtons.addEventListener("click", (e) => {
                 calc.reset();
             }
             break;
-            case "point-btn":
-                calcDispUp.innerText = calc.insertPoint();
+        case "point-btn":
+            calcDispUp.innerText = calc.insertPoint();
             break;
+
+        case "delete-btn":
+            calcDispUp.innerText = calc.erase();
+            break;
+
         case "equals-btn":
             {
                 try {
