@@ -13,6 +13,19 @@ body {
     align-items: center;
 }
 
+#github-link {
+    text-decoration: none;
+    color: black;
+    margin: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#github-link:hover {
+    color: #232323;
+}
+
 #calc-container {
     background-color: #111111;
     width: 300px;
@@ -122,8 +135,9 @@ body {
 }
 
 #delete-btn:hover {
-    background-color: #CCCC12;
+    background-color: #999900;
     color: black;
+
     transition: ease-in-out 0.15s;
 }
 
@@ -135,5 +149,5 @@ body {
     margin: 25px;
     font-family: 'Orbitron', Arial;
     font-weight: bold;
-    font-size: medium;
+    font-size: small;
 }
