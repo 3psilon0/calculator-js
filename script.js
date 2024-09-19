@@ -17,10 +17,15 @@ const digits = {
 
 const operators = {
     "divide-btn": "÷",
+    "/": "÷",
     "mult-btn": "×",
+    "*": "×",
     "minus-btn": "-",
+    "-": "-",
     "plus-btn": "+",
+    "+": "+",
     "mod-btn": "mod",
+    "%": "mod"
 };
 
 const Calculator = function () {
@@ -136,16 +141,15 @@ const Calculator = function () {
                 if (prevExpr === null) {
                     opr = null;
                     return `${x}`;
-                }
-                else {
-                    if (RegExp(/^-{1}\(.*\)/).test(prevExpr)){
+                } else {
+                    if (RegExp(/^-{1}\(.*\)/).test(prevExpr)) {
                         invert();
                         return `${prevExpr} ${opr}`;
                     }
 
                     opr = null;
                     let tokens = prevExpr.split(" ");
-                    if(tokens.length === 3){
+                    if (tokens.length === 3) {
                         y = tokens.pop();
                         opr = tokens.pop();
                         x = tokens.pop();
@@ -157,7 +161,7 @@ const Calculator = function () {
                     tempOpr = tokens.pop();
                     let expr = [...tokens].reverse();
 
-                    while (expr.length != 1){
+                    while (expr.length != 1) {
                         x = expr.pop();
                         opr = expr.pop();
                         y = expr.pop();
@@ -171,10 +175,9 @@ const Calculator = function () {
 
                     return `${prevExpr} ${opr} ${y}`;
                 }
-            }
-            else {
+            } else {
                 x = x.slice(0, x.length - 1);
-                if (x === ""){
+                if (x === "") {
                     return "0";
                 }
                 return `${x}`;
@@ -183,9 +186,11 @@ const Calculator = function () {
             y = y.slice(0, y.length - 1);
             if (y === "") {
                 y = null;
-                return (prevExpr === null ? `${x} ${opr}` : `${prevExpr} ${opr}`);
+                return prevExpr === null ? `${x} ${opr}` : `${prevExpr} ${opr}`;
             }
-            return (prevExpr === null ? `${x} ${opr} ${y}` : `${prevExpr} ${opr} ${y}`);
+            return prevExpr === null
+                ? `${x} ${opr} ${y}`
+                : `${prevExpr} ${opr} ${y}`;
         }
     };
 
@@ -330,6 +335,89 @@ calcButtons.addEventListener("click", (e) => {
             }
             break;
         case "clear-btn":
+            calc.reset();
+            calcDispLow.innerText = "\u2800";
+            calcDispUp.innerText = "0";
+            break;
+    }
+});
+
+window.addEventListener("keydown", (e) => {
+    switch (e.key) {
+        case "0":
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+            calcDispUp.innerText = calc.getFullExpr(e.key);
+            if (calc.y != null) {
+                try {
+                    calcDispLow.innerText = calc.operate();
+                } catch (e) {
+                    calcDispLow.innerText = e.message;
+                    calc.y = null;
+                    calcDispUp.innerText = calc.getHalfExpr() + " 0";
+                }
+            }
+            break;
+        case "/":
+        case "*":
+        case "-":
+        case "+":
+        case "%":
+            if (calc.y != null) {
+                calc.prevExpr = calcDispUp.innerText;
+                calc.x = calc.operate();
+                calc.opr = operators[e.key];
+                calc.y = null;
+                calcDispUp.innerText = calc.getHalfExpr();
+                calcDispLow.innerText = "\u2800";
+            } else if (calc.y === null) {
+                calc.x = calc.x === "" ? "0" : calc.x;
+                calc.opr = operators[e.key];
+                calcDispUp.innerText = calc.getHalfExpr();
+                calcDispLow.innerText = "\u2800";
+            }
+            break;
+        case "i":
+            try {
+                calcDispUp.innerText = calc.invert();
+                calcDispLow.innerText = calc.operate();
+            } catch (e) {
+                calcDispUp.innerText = "\u2800";
+                calcDispLow.innerText = e.message;
+                calc.reset();
+            }
+            break;
+        case ".":
+            calcDispUp.innerText = calc.insertPoint();
+            break;
+
+        case "Backspace":
+            calcDispUp.innerText = calc.erase();
+            break;
+            2;
+        case "Enter":
+            {
+                try {
+                    const result = calc.operate();
+                    calc.reset();
+                    calc.x = result;
+                    calcDispUp.innerText = result;
+                    calcDispLow.innerText = result;
+                } catch (e) {
+                    calcDispUp.innerText = "\u2800";
+                    calcDispLow.innerText = e.message;
+                    calc.reset();
+                }
+            }
+            break;
+        case "c":
             calc.reset();
             calcDispLow.innerText = "\u2800";
             calcDispUp.innerText = "0";
